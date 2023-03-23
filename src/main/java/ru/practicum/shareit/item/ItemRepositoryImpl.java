@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 @Component
-public class ItemRepositoryImpl implements ItemRepository{
+public class ItemRepositoryImpl implements ItemRepository {
 
     Map<Long, List<Item>> items = new HashMap<>();
 

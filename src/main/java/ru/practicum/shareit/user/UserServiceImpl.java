@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
                 userUpdate.setName(user.getName());
             }
             if (user.getEmail() != null) {
-                if(user.getEmail().equals(userUpdate.getEmail()) || userRepository.getUsers().stream()
+                if (user.getEmail().equals(userUpdate.getEmail()) || userRepository.getUsers().stream()
                         .noneMatch(u -> u.getEmail().equals(user.getEmail()))) {
                     userUpdate.setEmail(user.getEmail());
                 } else {

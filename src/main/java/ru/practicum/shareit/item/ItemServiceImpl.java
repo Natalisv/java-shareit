@@ -104,7 +104,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> findItem(String text) {
-        if(text != null && !text.isEmpty() && !text.isBlank()) {
+        if (text != null && !text.isEmpty() && !text.isBlank()) {
             List<User> users = userRepository.getUsers();
             List<Long> usersId = users.stream().map(User::getId).collect(Collectors.toList());
             List<ItemDto> response = new ArrayList<>();

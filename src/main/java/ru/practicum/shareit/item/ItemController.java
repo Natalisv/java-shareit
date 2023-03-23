@@ -14,6 +14,7 @@ public class ItemController {
 
     @Autowired
     private final ItemService itemService;
+
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") long userId, @RequestBody ItemDto item) {
         return itemService.addItem(userId, item);
