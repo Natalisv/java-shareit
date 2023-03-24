@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private final UserRepository userRepository;
 
-    private static Long startId = 1L;
+    private Long startId = 1L;
 
 
     @Override
