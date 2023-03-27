@@ -1,6 +1,7 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.repository;
 
 import org.springframework.stereotype.Component;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isContains(User user) {
-        return users.containsKey(user.id) || users.containsValue(user) ||
+        return users.containsKey(user.getId()) || users.containsValue(user) ||
                 users.values().stream()
                         .anyMatch(u -> u.getName().equals(user.getName()) || u.getEmail().equals(user.getEmail()));
     }

@@ -1,5 +1,6 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
+import ru.practicum.shareit.exception.ExistException;
 import ru.practicum.shareit.item.dto.ItemDto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface ItemService {
 
     ItemDto getById(Long userId, Long itemId);
 
-    ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto);
+    ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto) throws ExistException;
 
     List<ItemDto> getUserItems(Long userId);
 

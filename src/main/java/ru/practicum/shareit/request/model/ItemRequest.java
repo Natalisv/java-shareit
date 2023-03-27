@@ -1,12 +1,9 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.request.model;
 
 import lombok.Data;
 
 import java.util.Date;
 
-/**
- * TODO Sprint add-item-requests.
- */
 @Data
 public class ItemRequest {
 
