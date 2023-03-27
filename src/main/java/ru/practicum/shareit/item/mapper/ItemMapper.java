@@ -5,7 +5,7 @@ import ru.practicum.shareit.item.model.Item;
 
 public class ItemMapper {
 
-    private ItemMapper(){
+    private ItemMapper() {
         throw new RuntimeException();
     }
 
