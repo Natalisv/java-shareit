@@ -11,7 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "items")
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 public class Item {
 
     @Id

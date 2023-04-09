@@ -8,7 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 public class User {
 
     @Id

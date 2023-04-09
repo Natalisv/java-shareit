@@ -7,7 +7,8 @@ import ru.practicum.shareit.item.model.Comment;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ItemDto {
 
     Long id;
