@@ -143,9 +143,6 @@ public class ItemServiceImpl implements ItemService {
                         comment.setAuthorName(userName);
                         comment.setCreated(LocalDateTime.now());
                         return commentsRepository.save(comment);
-
-                       /* Comment savedComment = commentsRepository.save(comment);
-                        return CommentMapper.toCommentDto(savedComment, userName);*/
                     } else {
                         log.error("Не возможно задать комментарий бронированию");
                         throw new ValidationException("Не возможно задать комментарий бронированию");

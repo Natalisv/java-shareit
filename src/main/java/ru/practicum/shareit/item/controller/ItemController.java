@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exception.ExistException;
-import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
