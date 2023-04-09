@@ -14,19 +14,19 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidation(final ValidationException e) {
-        return Map.of("error ", "Bad request");
+        return Map.of("error", e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handleOtherExceptions(Throwable e) {
-        return Map.of("error ", "Unexpected error");
+        return Map.of("error", "Unexpected error");
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleOtherExceptions(IllegalArgumentException e) {
-        return Map.of("error ", "Not found");
+        return Map.of("error", "Not found");
     }
 
 }

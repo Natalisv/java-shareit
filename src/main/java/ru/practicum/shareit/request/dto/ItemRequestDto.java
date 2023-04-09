@@ -12,7 +12,6 @@ public class ItemRequestDto {
 
     String description;
 
-
     Long requestor;
 
     Date created;
