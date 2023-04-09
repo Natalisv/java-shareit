@@ -38,6 +38,6 @@ public class Comment {
         this.authorId = authorId;
     }
 
-    public Comment(){
+    public Comment() {
     }
 }
