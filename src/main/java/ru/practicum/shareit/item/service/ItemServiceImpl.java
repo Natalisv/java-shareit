@@ -80,7 +80,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto) throws ExistException {
         if (userId != null && isContainsUser(userId)) {
             try {
-                Item item = itemRepository.findByIdAndOwner(itemId, userId);
+                itemRepository.findByIdAndOwner(itemId, userId);
             } catch (Exception e) {
                 throw new ValidationException(e.getMessage());
             }
@@ -134,15 +134,8 @@ public class ItemServiceImpl implements ItemService {
             if (!comment.getText().isEmpty() && !comment.getText().isBlank()) {
                 List<Booking> bookings = bookingRepository.findByBookerIdAndItemId(userId, itemId);
                 if (bookings != null) {
-                    if (bookings.stream().anyMatch(b -> b.getStatus().equals(Status.APPROVED)
-                            && b.getStart().isBefore(LocalDateTime.now())
-                            && b.getEnd().isBefore(LocalDateTime.now()))) {
-                        comment.setItemId(itemId);
-                        comment.setAuthorId(userId);
-                        String userName = userRepository.getReferenceById(userId).getName();
-                        comment.setAuthorName(userName);
-                        comment.setCreated(LocalDateTime.now());
-                        return commentsRepository.save(comment);
+                    if (Boolean.TRUE.equals(isAvailableToComment(bookings))) {
+                        return saveComment(comment, itemId, userId);
                     } else {
                         log.error("Не возможно задать комментарий бронированию");
                         throw new ValidationException("Не возможно задать комментарий бронированию");
@@ -167,5 +160,20 @@ public class ItemServiceImpl implements ItemService {
 
     private boolean isValid(ItemDto item) {
         return (item.getName() != null && !item.getName().isEmpty() && item.getDescription() != null && !item.getDescription().isEmpty() && item.getAvailable() != null);
+    }
+
+    private Comment saveComment(Comment comment, Long itemId, Long userId) {
+        comment.setItemId(itemId);
+        comment.setAuthorId(userId);
+        String userName = userRepository.getReferenceById(userId).getName();
+        comment.setAuthorName(userName);
+        comment.setCreated(LocalDateTime.now());
+        return commentsRepository.save(comment);
+    }
+
+    private boolean isAvailableToComment(List<Booking> bookings) {
+        return bookings.stream().anyMatch(b -> b.getStatus().equals(Status.APPROVED)
+                && b.getStart().isBefore(LocalDateTime.now())
+                && b.getEnd().isBefore(LocalDateTime.now()));
     }
 }

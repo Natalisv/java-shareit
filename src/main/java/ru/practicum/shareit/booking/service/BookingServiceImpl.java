@@ -47,18 +47,10 @@ public class BookingServiceImpl implements BookingService {
                 if (item.getOwner().equals(userId)) {
                     throw new IllegalArgumentException();
                 }
-                if (item.getAvailable()) {
+                if (Boolean.TRUE.equals(item.getAvailable())) {
                     List<Booking> existBookings = bookingRepository.findByItemId(item.getId());
-                    for (Booking existBooking : existBookings) {
-                        if (existBooking.getStatus().equals(Status.APPROVED) && booking.getStart().isAfter(existBooking.getStart()) && booking.getEnd().isBefore(existBooking.getEnd())) {
-                            log.error("Вещь не доступна к бронированию");
-                            throw new ValidationException("Вещь не доступна к бронированию");
-                        }
-                    }
-                    booking.setStatus(Status.WAITING);
-                    booking.setBookerId(userId);
-                    Booking savedBooking = bookingRepository.save(booking);
-                    return bookingMapper.toBookingDto(savedBooking);
+                    isAvailable(existBookings, booking);
+                    return saveBooking(booking, userId);
                 } else {
                     log.error("Вещь не доступна к бронированию");
                     throw new ValidationException("Вещь не доступна к бронированию");
@@ -101,23 +93,11 @@ public class BookingServiceImpl implements BookingService {
                 throw new ValidationException("Бронирование уже утверждено");
             }
             Item item = itemRepository.findById(booking.getItemId()).get();
-            if (item.getAvailable()) {
-                if (item.getOwner().equals(userId)) {
-                    if (approved) {
-                        booking.setStatus(Status.APPROVED);
-                    } else {
-                        booking.setStatus(Status.REJECTED);
-                    }
-                    bookingRepository.save(booking);
-                    return bookingMapper.toBookingDto(booking);
-                } else {
-                    log.error("Бронирование bookingId = " + bookingId + " не найдено");
-                    throw new IllegalArgumentException();
-                }
+            if (Boolean.TRUE.equals(item.getAvailable())) {
+                return this.setApproved(item, userId, booking, approved);
             } else {
                 throw new ValidationException("Вещь не доступа к бронированию");
             }
-
         } else {
             log.error("Пользователя с userId = " + userId + " не существует");
             throw new IllegalArgumentException();
@@ -202,5 +182,37 @@ public class BookingServiceImpl implements BookingService {
                 bookingDto.getStart().isAfter(LocalDateTime.now()) && bookingDto.getEnd().isAfter(LocalDateTime.now())
                 && bookingDto.getStart().isBefore(bookingDto.getEnd())
                 && !bookingDto.getStart().equals(bookingDto.getEnd());
+    }
+
+    private boolean isAvailable(List<Booking> existBookings, Booking booking) {
+        for (Booking existBooking : existBookings) {
+            if (existBooking.getStatus().equals(Status.APPROVED) && booking.getStart().isAfter(existBooking.getStart()) && booking.getEnd().isBefore(existBooking.getEnd())) {
+                log.error("Вещь не доступна к бронированию");
+                throw new ValidationException("Вещь не доступна к бронированию");
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+    private BookingDto saveBooking(Booking booking, Long userId) {
+        booking.setStatus(Status.WAITING);
+        booking.setBookerId(userId);
+        Booking savedBooking = bookingRepository.save(booking);
+        return bookingMapper.toBookingDto(savedBooking);
+    }
+
+    private BookingDto setApproved(Item item, Long userId, Booking booking, Boolean approved) {
+        if (item.getOwner().equals(userId)) {
+            if (Boolean.TRUE.equals(approved)) {
+                booking.setStatus(Status.APPROVED);
+            } else {
+                booking.setStatus(Status.REJECTED);
+            }
+            bookingRepository.save(booking);
+            return bookingMapper.toBookingDto(booking);
+        } else {
+            log.error("Бронирование bookingId = " + booking.getId() + " не найдено");
+            throw new IllegalArgumentException();
+        }
     }
 }
