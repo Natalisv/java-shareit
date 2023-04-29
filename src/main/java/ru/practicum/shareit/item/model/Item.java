@@ -32,8 +32,8 @@ public class Item {
     @Column
     Long owner;
 
-    @Column(name = "item_request")
-    Long itemRequest;
+    @Column(name = "request_id")
+    Long requestId;
 
     @OneToMany(
             targetEntity = Booking.class,
@@ -51,13 +51,20 @@ public class Item {
     @JsonManagedReference
     private List<Comment> comments;
 
-    public Item(String name, String description, Boolean available) {
+    public Item(String name, String description, Boolean available, Long requestId) {
         this.name = name;
         this.description = description;
         this.available = available;
+        this.requestId = requestId;
     }
 
     public Item() {
     }
 
+    public Item(String name,String description,  Long id, Boolean available) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.available = available;
+    }
 }

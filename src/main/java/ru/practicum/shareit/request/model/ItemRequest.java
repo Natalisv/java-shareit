@@ -2,11 +2,8 @@ package ru.practicum.shareit.request.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -14,14 +11,23 @@ import java.util.Date;
 public class ItemRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column
     String description;
 
     @Column(name = "requestor_id")
-    Long requestor;
+    Long requestorId;
 
     @Column
-    Date created;
+    LocalDateTime created;
+
+    public ItemRequest(String description) {
+        this.description = description;
+    }
+
+    private ItemRequest() {
+    }
+
 }

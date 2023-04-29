@@ -12,7 +12,7 @@ name varchar(255) NOT NULL,
 description varchar(255) NOT NULL,
 available boolean,
 owner BIGINT NOT NULL REFERENCES users (id),
-item_request BIGINT REFERENCES users (id)
+request_id BIGINT REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS booking (

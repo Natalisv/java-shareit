@@ -105,11 +105,21 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public List<BookingDto> getAllBooking(Long userId, String state) {
+    public List<BookingDto> getAllBooking(Long userId, String state, Integer from, Integer size) {
         if (isContainsUser(userId)) {
+            if (from != null && size != null) {
+                if (from == 0 && size == 0 || from < 0 || size < 0) {
+                    throw new ValidationException();
+                }
+            }
             List<Booking> bookings = bookingRepository.findByBookerId(userId);
             bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed()).collect(Collectors.toList());
-            return getBookingsByState(bookings, state);
+            List<BookingDto> booking = getBookingsByState(bookings, state);
+            if (from != null && size != null) {
+                return booking.stream().skip(from).limit(size).collect(Collectors.toList());
+            } else {
+                return booking;
+            }
         } else {
             log.error("Пользователя с userId = " + userId + " не существует");
             throw new IllegalArgumentException();
@@ -117,8 +127,13 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public List<BookingDto> getAllForOwner(Long userId, String state) {
+    public List<BookingDto> getAllForOwner(Long userId, String state, Integer from, Integer size) {
         if (isContainsUser(userId)) {
+            if (from != null && size != null) {
+                if (from == 0 && size == 0 || from < 0 || size < 0) {
+                    throw new ValidationException();
+                }
+            }
             List<Item> items = itemRepository.findByOwner(userId);
             if (items != null) {
                 List<Booking> bookings = bookingRepository.findAll();
@@ -127,7 +142,12 @@ public class BookingServiceImpl implements BookingService {
                 for (Item i : items) {
                     userBookings.addAll(bookings.stream().filter(b -> b.getItemId().equals(i.getId())).collect(Collectors.toList()));
                 }
-                return getBookingsByState(userBookings, state);
+                List<BookingDto> booking = getBookingsByState(userBookings, state);
+                if (from != null && size != null) {
+                    return booking.stream().skip(from).limit(size).collect(Collectors.toList());
+                } else {
+                    return booking;
+                }
             } else {
                 throw new IllegalArgumentException();
             }
@@ -177,11 +197,11 @@ public class BookingServiceImpl implements BookingService {
         return userRepository.existsById(id);
     }
 
-    private boolean isValid(Booking bookingDto) {
-        return bookingDto.getItemId() != null && bookingDto.getStart() != null && bookingDto.getEnd() != null &&
-                bookingDto.getStart().isAfter(LocalDateTime.now()) && bookingDto.getEnd().isAfter(LocalDateTime.now())
-                && bookingDto.getStart().isBefore(bookingDto.getEnd())
-                && !bookingDto.getStart().equals(bookingDto.getEnd());
+    private boolean isValid(Booking booking) {
+        return booking.getItemId() != null && booking.getStart() != null && booking.getEnd() != null &&
+                booking.getStart().isAfter(LocalDateTime.now()) && booking.getEnd().isAfter(LocalDateTime.now())
+                && booking.getStart().isBefore(booking.getEnd())
+                && !booking.getStart().equals(booking.getEnd());
     }
 
     private boolean isAvailable(List<Booking> existBookings, Booking booking) {

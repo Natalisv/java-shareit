@@ -120,7 +120,7 @@ public class ItemServiceImpl implements ItemService {
             items.stream()
                     .filter(Item::getAvailable)
                     .filter(i -> i.getName().toLowerCase().trim().contains(text.toLowerCase().trim()) ||
-                            i.getDescription().toLowerCase().trim().contains(text.toLowerCase().toLowerCase().trim()))
+                            i.getDescription().toLowerCase().trim().contains(text.toLowerCase().trim()))
                     .forEach(i -> findItems.add(ItemMapper.toItemDto(i)));
             return findItems;
         }

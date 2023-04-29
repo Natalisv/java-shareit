@@ -16,6 +16,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Transactional
     List<Item> findByOwner(Long owner);
 
+    @Transactional
+    List<Item> findByRequestId(Long requestorId);
+
 
     @Modifying(clearAutomatically = true)
     @Transactional
