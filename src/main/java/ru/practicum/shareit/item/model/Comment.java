@@ -40,4 +40,8 @@ public class Comment {
 
     public Comment() {
     }
+
+    public Comment(String text) {
+        this.text = text;
+    }
 }

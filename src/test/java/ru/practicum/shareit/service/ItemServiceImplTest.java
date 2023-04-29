@@ -6,8 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+import ru.practicum.shareit.booking.Status;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.booking.repository.BookingRepository;
+import ru.practicum.shareit.booking.service.BookingServiceImpl;
 import ru.practicum.shareit.exception.ExistException;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.service.ItemServiceImpl;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -15,6 +21,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,12 +37,24 @@ public class ItemServiceImplTest {
     protected ItemDto itemDtoNotValid;
 
     protected User user;
+    protected Comment comment;
+    protected Booking booking;
+    protected User userTwo;
+
+    LocalDateTime start = LocalDateTime.of(2024, 04, 27, 10, 00);
+    LocalDateTime end = LocalDateTime.of(2024, 04, 28, 10, 00);
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
     ItemServiceImpl itemService;
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BookingServiceImpl bookingService;
 
 
     @BeforeEach
@@ -55,6 +74,23 @@ public class ItemServiceImplTest {
                 "user",
                 "user@user.com"
         );
+
+        comment = new Comment(
+                "comment"
+        );
+        booking = new Booking(
+                start,
+                end,
+                3L,
+                5L,
+                Status.APPROVED
+        );
+        userTwo = new User(
+                10L,
+                "userTwo",
+                "user@.com"
+        );
+        userTwo = userRepository.save(userTwo);
     }
 
     @Test
@@ -144,9 +180,16 @@ public class ItemServiceImplTest {
     @Test
     void addComment() {
         User savedUser = userRepository.save(user);
-        ItemDto savedItem = itemService.addItem(savedUser.getId(), itemDto);
-
-
+        ItemDto savedItem = itemService.addItem(userTwo.getId(), itemDto);
+        booking.setItemId(savedItem.getId());
+        booking.setBookerId(userTwo.getId());
+        bookingService.createBooking(savedUser.getId(), booking);
+        booking.setStatus(Status.APPROVED);
+        booking.setStart(LocalDateTime.of(2020, 04, 27, 10, 00));
+        booking.setEnd(LocalDateTime.of(2021, 04, 27, 10, 00));
+        Comment result = itemService.addComment(savedUser.getId(), savedItem.getId(), comment);
+        assertNotNull(result);
+        assertEquals(result.getText(), "comment");
     }
 
 }
