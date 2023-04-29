@@ -2,6 +2,7 @@ package ru.practicum.shareit.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.exception.ExistException;
 import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
 
@@ -15,7 +16,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public UserDto saveUser(@RequestBody UserDto user) {
+    public UserDto saveUser(@RequestBody UserDto user) throws ExistException {
         return userService.saveUser(user);
     }
 

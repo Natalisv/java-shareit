@@ -1,26 +1,63 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.Data;
-import ru.practicum.shareit.request.model.ItemRequest;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import ru.practicum.shareit.booking.model.Booking;
 
-@Data
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "items")
+@Getter
+@Setter
+@ToString
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column
     String name;
 
+    @Column
     String description;
 
+    @Column
     Boolean available;
 
+    @Column
     Long owner;
 
-    ItemRequest itemRequest;
+    @Column(name = "item_request")
+    Long itemRequest;
+
+    @OneToMany(
+            targetEntity = Booking.class,
+            mappedBy = "itemId",
+            fetch = FetchType.EAGER
+    )
+    @JsonManagedReference
+    private List<Booking> bookings;
+
+    @OneToMany(
+            targetEntity = Comment.class,
+            mappedBy = "itemId",
+            fetch = FetchType.LAZY
+    )
+    @JsonManagedReference
+    private List<Comment> comments;
 
     public Item(String name, String description, Boolean available) {
         this.name = name;
         this.description = description;
         this.available = available;
     }
+
+    public Item() {
+    }
+
 }
