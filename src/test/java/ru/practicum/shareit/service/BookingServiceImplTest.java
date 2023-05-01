@@ -115,6 +115,21 @@ public class BookingServiceImplTest {
     }
 
     @Test
+    void createBookingEx2() {
+        booking.setItemId(item.getId());
+        BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
+        booking.setStatus(Status.APPROVED);
+        Booking booking2 = new Booking(
+                item.getId(),
+                LocalDateTime.of(2024, 04, 27, 11, 00),
+                LocalDateTime.of(2024, 04, 28, 9, 00)
+        );
+
+        ValidationException ex2 = assertThrows(ValidationException.class, () -> bookingService.createBooking(user.getId(), booking2));
+    }
+
+
+    @Test
     void getBooking() {
         booking.setItemId(item.getId());
         BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
@@ -122,6 +137,23 @@ public class BookingServiceImplTest {
         assertNotNull(savedBooking);
         assertEquals(savedBooking.getId(), result.getId());
         assertEquals(savedBooking.getEnd(), result.getEnd());
+    }
+
+    @Test
+    void getBookingEx() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(3L, 5L));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(user.getId(), 5L));
+
+        User user3 = new User(
+                "user3",
+                "user@user3.com"
+        );
+        User savedUser3 = userRepository.save(user3);
+        booking.setItemId(item.getId());
+        booking.setBookerId(user.getId());
+        BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(savedUser3.getId(), savedBooking.getId()));
+
     }
 
     @Test
@@ -174,6 +206,12 @@ public class BookingServiceImplTest {
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getStart(), start);
         assertEquals(result.get(0).getEnd(), end);
+    }
+
+    @Test
+    void getAllForOwnerEx() {
+        ValidationException ex = assertThrows(ValidationException.class, () -> bookingService.getAllForOwner(userTwo.getId(), "ALL", 0, 0));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.getAllForOwner(5L, "ALL", 0, 20));
     }
 
     @Test

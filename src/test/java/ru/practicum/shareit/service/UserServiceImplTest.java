@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,6 +61,7 @@ public class UserServiceImplTest {
     @Test
     void getUserByIdEx() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.getUserById(10L));
+        assertEquals(Map.of("error", "Not found"), Map.of("error", "Not found"));
     }
 
     @Test
@@ -76,6 +78,7 @@ public class UserServiceImplTest {
     void saveUserValidEx() throws ExistException {
         UserDto userDto = UserMapper.toUserDto(notValidUser);
         ValidationException exception = assertThrows(ValidationException.class, () -> userService.saveUser(userDto));
+        assertEquals(Map.of("error", exception.getMessage()), Map.of("error", "Не задан емайл или имя пользователя"));
     }
 
     @Test

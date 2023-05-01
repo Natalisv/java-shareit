@@ -111,4 +111,14 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].name", Matchers.is("user")))
                 .andExpect(jsonPath("$[0].email", Matchers.is("user@user.com")));
     }
+
+    @Test
+    void deleteUser() throws Exception {
+
+        mvc.perform(delete("/users/1")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
 }

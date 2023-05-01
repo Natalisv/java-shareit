@@ -191,4 +191,16 @@ public class ItemServiceImplTest {
         assertEquals(result.getText(), "comment");
     }
 
+    @Test
+    void addCommentEx() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemService.addComment(10L, 2L, new Comment()));
+        comment.setText("");
+        User savedUser = userRepository.save(user);
+        ItemDto savedItem = itemService.addItem(userTwo.getId(), itemDto);
+        ValidationException exception = assertThrows(ValidationException.class, () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
+
+        comment.setText("text");
+        ValidationException exception2 = assertThrows(ValidationException.class, () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
+    }
+
 }

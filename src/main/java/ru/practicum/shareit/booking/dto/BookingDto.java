@@ -9,8 +9,6 @@ import ru.practicum.shareit.item.dto.ItemDtoShort;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@ToString
 public class BookingDto {
 
 

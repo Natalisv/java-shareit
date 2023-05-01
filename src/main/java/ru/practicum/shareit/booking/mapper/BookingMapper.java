@@ -35,12 +35,4 @@ public class BookingMapper {
                 booking.getStatus()
         );
     }
-
-    public Booking toBooking(BookingDto bookingDto) {
-        return new Booking(
-                bookingDto.getItem().getId(),
-                bookingDto.getStart(),
-                bookingDto.getEnd()
-        );
-    }
 }

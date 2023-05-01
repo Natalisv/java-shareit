@@ -13,10 +13,6 @@ import java.util.stream.Collectors;
 
 public class ItemMapper {
 
-    private ItemMapper() {
-        throw new RuntimeException();
-    }
-
     public static ItemDto toItemDto(Item item) {
         return getToItemDto(item);
     }
