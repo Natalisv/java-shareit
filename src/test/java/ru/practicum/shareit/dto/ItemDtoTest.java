@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @SpringBootTest
 @AutoConfigureJson
 @AutoConfigureJsonTesters
-public class ItemDtoTest {
+class ItemDtoTest {
 
     @Autowired
     private JacksonTester<ItemDto> json;
@@ -29,7 +29,7 @@ public class ItemDtoTest {
                 true
         );
         JsonContent<ItemDto> result = json.write(itemDto);
-        assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(null);
+        assertThat(result).extractingJsonPathNumberValue("$.id").isNull();
         assertThat(result).extractingJsonPathStringValue("$.name").isEqualTo("Дрель");
         assertThat(result).extractingJsonPathStringValue("$.description").isEqualTo("Простая дрель");
     }

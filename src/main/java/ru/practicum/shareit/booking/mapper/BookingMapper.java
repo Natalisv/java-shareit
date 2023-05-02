@@ -12,7 +12,10 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 @Service
-public class BookingMapper {
+public final class BookingMapper {
+
+    private BookingMapper() {
+    }
 
     @Autowired
     private ItemRepository itemRepository;

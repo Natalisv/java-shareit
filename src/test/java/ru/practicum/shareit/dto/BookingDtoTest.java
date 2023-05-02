@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @SpringBootTest
 @AutoConfigureJson
 @AutoConfigureJsonTesters
-public class BookingDtoTest {
+class BookingDtoTest {
 
     LocalDateTime start = LocalDateTime.of(2024, 04, 27, 10, 00);
     LocalDateTime end = LocalDateTime.of(2024, 04, 28, 10, 00);

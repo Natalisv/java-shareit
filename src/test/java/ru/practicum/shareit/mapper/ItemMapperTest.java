@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @AutoConfigureJson
-public class ItemMapperTest {
+class ItemMapperTest {
 
     protected Item item;
     protected Booking booking;

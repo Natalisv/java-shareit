@@ -4,16 +4,16 @@ import lombok.Data;
 
 @Data
 public class ItemDtoShort {
-    Long id;
-    String name;
 
-    Long owner;
+    private Long id;
 
-    String description;
+    private String name;
+    private Long owner;
 
-    Boolean available;
+    private String description;
+    private Boolean available;
 
-    Long requestId;
+    private Long requestId;
 
     public ItemDtoShort(Long id, String name) {
         this.id = id;

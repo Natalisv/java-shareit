@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class BookingControllerTest {
+class BookingControllerTest {
 
     @MockBean
     BookingServiceImpl bookingService;

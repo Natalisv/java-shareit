@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 public class BookingDto {
 
 
-    Long id;
+    private Long id;
 
-    LocalDateTime start;
+    private LocalDateTime start;
 
-    LocalDateTime end;
+    private LocalDateTime end;
 
-    ItemDtoShort item;
+    private ItemDtoShort item;
 
-    BookerDtoShort booker;
+    private BookerDtoShort booker;
 
-    Status status;
+    private Status status;
 
     public BookingDto(Long id, LocalDateTime start, LocalDateTime end, ItemDtoShort item, BookerDtoShort booker, Status status) {
         this.id = id;

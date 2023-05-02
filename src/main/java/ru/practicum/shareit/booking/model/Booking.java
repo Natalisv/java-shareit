@@ -17,23 +17,23 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "start_date")
-    LocalDateTime start;
+    private LocalDateTime start;
 
     @Column(name = "end_date")
-    LocalDateTime end;
+    private LocalDateTime end;
 
     @Column(name = "item_id")
-    Long itemId;
+    private Long itemId;
 
     @Column(name = "booker_id")
-    Long bookerId;
+    private Long bookerId;
 
     @Column
     @Enumerated
-    Status status;
+    private Status status;
 
     public Booking(LocalDateTime startBooking, LocalDateTime end, Long itemId, Long bookerId, Status status) {
         this.start = startBooking;

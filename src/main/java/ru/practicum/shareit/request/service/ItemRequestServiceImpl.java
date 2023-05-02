@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    ItemRequestRepository itemRequestRepository;
+    private ItemRequestRepository itemRequestRepository;
 
     @Autowired
-    ItemRequestMapper itemRequestMapper;
+    private ItemRequestMapper itemRequestMapper;
 
     public ItemRequestDto addRequest(Long userId, ItemRequestDto itemRequestDto) {
         if (Boolean.TRUE.equals(isValid(itemRequestDto))) {
@@ -49,7 +49,8 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public List<ItemRequestDto> getRequests(Long userId) {
         if (userId != null && isContainsUser(userId)) {
             List<ItemRequest> itemRequests = itemRequestRepository.findByRequestorId(userId);
-            List<ItemRequestDto> itemRequestsDto = itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i)).collect(Collectors.toList());
+            List<ItemRequestDto> itemRequestsDto = itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i))
+                    .collect(Collectors.toList());
             return itemRequestsDto.stream().sorted(Comparator.comparing(ItemRequestDto::getCreated)).collect(Collectors.toList());
         } else {
             log.error("Пользователя с userId = " + userId + " не существует");
@@ -80,7 +81,8 @@ public class ItemRequestServiceImpl implements ItemRequestService {
             List<ItemRequest> itemRequests = itemRequestRepository.findAll();
             itemRequests = itemRequests.stream().filter(i -> !i.getRequestorId().equals(userId)).collect(Collectors.toList());
             if (itemRequests != null) {
-                itemRequests = itemRequests.stream().sorted(Comparator.comparing(ItemRequest::getCreated)).skip(from).limit(size).collect(Collectors.toList());
+                itemRequests = itemRequests.stream().sorted(Comparator.comparing(ItemRequest::getCreated)).skip(from)
+                        .limit(size).collect(Collectors.toList());
                 return itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i)).collect(Collectors.toList());
             } else {
                 return Collections.emptyList();

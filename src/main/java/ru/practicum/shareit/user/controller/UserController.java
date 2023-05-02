@@ -15,7 +15,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping
     public UserDto saveUser(@RequestBody UserDto user) throws ExistException {

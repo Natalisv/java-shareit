@@ -11,21 +11,21 @@ import java.util.List;
 @Setter
 public class ItemDto {
 
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
-    Boolean available;
+    private Boolean available;
 
-    Long requestId;
-    Long owner;
+    private Long requestId;
+    private Long owner;
 
-    Booking lastBooking;
+    public Booking lastBooking;
 
-    Booking nextBooking;
-    List<Comment> comments;
+    public Booking nextBooking;
+    public List<Comment> comments;
 
     public ItemDto() {
     }
@@ -43,7 +43,8 @@ public class ItemDto {
         this.requestId = requestId;
     }
 
-    public ItemDto(Long id, String name, String description, Boolean available, Long owner, List<Comment> comments, Long requestId) {
+    public ItemDto(Long id, String name, String description, Boolean available, Long owner, List<Comment> comments,
+                   Long requestId) {
         this.id = id;
         this.name = name;
         this.description = description;

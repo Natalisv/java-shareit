@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @TestPropertySource(properties = {"db.name=test"})
-public class ItemServiceImplTest {
+class ItemServiceImplTest {
 
     protected ItemDto itemDto;
     protected ItemDto itemDtoNotValid;

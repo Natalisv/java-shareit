@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @SpringBootTest
 @AutoConfigureJson
 @AutoConfigureJsonTesters
-public class ItemRequestDtoTest {
+class ItemRequestDtoTest {
 
     @Autowired
     private JacksonTester<ItemRequestDto> json;

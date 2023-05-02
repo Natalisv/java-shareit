@@ -24,7 +24,8 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId, @RequestBody ItemDto item) throws ExistException {
+    public ItemDto update(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId,
+                          @RequestBody ItemDto item) throws ExistException {
         return itemService.updateItem(userId, itemId, item);
     }
 
@@ -44,7 +45,8 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public Comment addComment(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId, @RequestBody Comment comment) {
+    public Comment addComment(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId,
+                              @RequestBody Comment comment) {
         return itemService.addComment(userId, itemId, comment);
     }
 }

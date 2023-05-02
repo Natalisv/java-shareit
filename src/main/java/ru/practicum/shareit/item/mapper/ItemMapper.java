@@ -11,7 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemMapper {
+public final class ItemMapper {
+
+    private ItemMapper() {
+    }
 
     public static ItemDto toItemDto(Item item) {
         return getToItemDto(item);

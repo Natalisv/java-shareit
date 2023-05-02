@@ -14,15 +14,15 @@ import java.util.List;
 @ToString
 public class ItemRequestDto {
 
-    Long id;
+    private Long id;
 
-    String description;
+    private String description;
 
-    Long requestorId;
+    private Long requestorId;
 
-    LocalDateTime created;
+    private LocalDateTime created;
 
-    List<ItemDtoShort> items;
+    private List<ItemDtoShort> items;
 
     public ItemRequestDto(Long id, String description, Long requestorId, LocalDateTime created, List<ItemDtoShort> items) {
         this.id = id;

@@ -15,7 +15,7 @@ import java.util.List;
 public class ItemRequestController {
 
     @Autowired
-    ItemRequestServiceImpl itemRequestService;
+    private ItemRequestServiceImpl itemRequestService;
 
     @PostMapping
     public ItemRequestDto addRequest(@RequestHeader("X-Sharer-User-Id") long userId, @RequestBody ItemRequestDto itemRequest) {
@@ -34,7 +34,8 @@ public class ItemRequestController {
 
     @GetMapping("/all")
     public List<ItemRequestDto> getOtherRequests(@RequestHeader("X-Sharer-User-Id") long userId,
-                                                 @RequestParam(required = false) Integer from, @RequestParam(required = false) Integer size) {
+                                                 @RequestParam(required = false) Integer from,
+                                                 @RequestParam(required = false) Integer size) {
         return itemRequestService.getOtherRequests(userId, from, size);
     }
 }

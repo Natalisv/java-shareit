@@ -28,21 +28,26 @@ public class BookingController {
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingDto approvedBooking(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long bookingId, @RequestParam Boolean approved) {
+    public BookingDto approvedBooking(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long bookingId,
+                                      @RequestParam Boolean approved) {
         return bookingServiceImpl.setApproved(userId, bookingId, approved);
     }
 
     @GetMapping
     public List<BookingDto> getAllBooking(@RequestHeader("X-Sharer-User-Id") long userId, @RequestParam(required = false) String state,
                                           @RequestParam(required = false) Integer from, @RequestParam(required = false) Integer size) {
-        if (state == null) state = "ALL";
+        if (state == null) {
+            state = "ALL";
+        }
         return bookingServiceImpl.getAllBooking(userId, state, from, size);
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getAllForOwner(@RequestHeader("X-Sharer-User-Id") long userId, @RequestParam(required = false) String state,
                                            @RequestParam(required = false) Integer from, @RequestParam(required = false) Integer size) {
-        if (state == null) state = "ALL";
+        if (state == null) {
+            state = "ALL";
+        }
         return bookingServiceImpl.getAllForOwner(userId, state, from, size);
     }
 }

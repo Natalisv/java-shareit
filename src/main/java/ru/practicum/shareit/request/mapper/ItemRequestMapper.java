@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ItemRequestMapper {
+public final class ItemRequestMapper {
+
+    private ItemRequestMapper() {
+    }
 
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
 
     public ItemRequest toItemRequest(ItemRequestDto itemRequestDto) {
         return new ItemRequest(

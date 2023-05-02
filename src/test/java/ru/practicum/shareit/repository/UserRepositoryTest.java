@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 @DataJpaTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @TestPropertySource(properties = {"db.name=test"})
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     protected User user;
     @Autowired

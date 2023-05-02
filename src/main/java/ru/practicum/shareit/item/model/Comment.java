@@ -16,20 +16,20 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
-    String text;
+    private String text;
 
     @Column(name = "item_id")
-    Long itemId;
+    private Long itemId;
 
     @Column(name = "author_id")
-    Long authorId;
+    private Long authorId;
 
     @Column(name = "author_name")
-    String authorName;
+    private String authorName;
 
-    LocalDateTime created;
+    private LocalDateTime created;
 
     public Comment(Long id, String text, Long itemId, Long authorId) {
         this.id = id;

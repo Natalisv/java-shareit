@@ -12,22 +12,22 @@ public class ItemRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String description;
+    private String description;
 
     @Column(name = "requestor_id")
-    Long requestorId;
+    private Long requestorId;
 
     @Column
-    LocalDateTime created;
+    private LocalDateTime created;
 
     public ItemRequest(String description) {
         this.description = description;
     }
 
-    private ItemRequest() {
+    public ItemRequest() {
     }
 
 }

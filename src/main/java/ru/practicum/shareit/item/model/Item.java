@@ -18,22 +18,22 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private String name;
 
     @Column
-    String description;
+    private String description;
 
     @Column
-    Boolean available;
+    private Boolean available;
 
     @Column
-    Long owner;
+    private Long owner;
 
     @Column(name = "request_id")
-    Long requestId;
+    private Long requestId;
 
     @OneToMany(
             targetEntity = Booking.class,

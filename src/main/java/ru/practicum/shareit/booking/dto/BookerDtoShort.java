@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class BookerDtoShort {
-    Long id;
+
+    private Long id;
 
     public BookerDtoShort(Long id) {
         this.id = id;

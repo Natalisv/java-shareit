@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class ItemRequestControllerTest {
+class ItemRequestControllerTest {
 
     protected ItemRequestDto itemRequestDto;
 

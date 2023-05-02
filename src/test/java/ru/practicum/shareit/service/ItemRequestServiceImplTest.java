@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @TestPropertySource(properties = {"db.name=test"})
-public class ItemRequestServiceImplTest {
+class ItemRequestServiceImplTest {
 
     protected ItemRequestDto itemRequestDto;
 

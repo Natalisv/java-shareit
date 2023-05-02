@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @TestPropertySource(properties = {"db.name=test"})
-public class UserServiceImplTest {
+class UserServiceImplTest {
 
     protected User notValidUser;
     protected User user;
