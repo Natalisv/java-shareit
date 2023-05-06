@@ -18,22 +18,22 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private String name;
 
     @Column
-    String description;
+    private String description;
 
     @Column
-    Boolean available;
+    private Boolean available;
 
     @Column
-    Long owner;
+    private Long owner;
 
-    @Column(name = "item_request")
-    Long itemRequest;
+    @Column(name = "request_id")
+    private Long requestId;
 
     @OneToMany(
             targetEntity = Booking.class,
@@ -51,13 +51,29 @@ public class Item {
     @JsonManagedReference
     private List<Comment> comments;
 
-    public Item(String name, String description, Boolean available) {
+    public Item(String name, String description, Boolean available, Long requestId) {
         this.name = name;
         this.description = description;
         this.available = available;
+        this.requestId = requestId;
     }
 
     public Item() {
     }
 
+    public Item(String name,String description,  Long id, Boolean available) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.available = available;
+    }
+
+    public Item(Long id, String name, String description, Boolean available, Long owner, Long requestId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+        this.owner = owner;
+        this.requestId = requestId;
+    }
 }

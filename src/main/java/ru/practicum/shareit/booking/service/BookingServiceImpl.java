@@ -105,11 +105,19 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public List<BookingDto> getAllBooking(Long userId, String state) {
+    public List<BookingDto> getAllBooking(Long userId, String state, Integer from, Integer size) {
         if (isContainsUser(userId)) {
+            if (from != null && size != null && (from == 0 && size == 0 || from < 0 || size < 0)) {
+                throw new ValidationException();
+            }
             List<Booking> bookings = bookingRepository.findByBookerId(userId);
             bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed()).collect(Collectors.toList());
-            return getBookingsByState(bookings, state);
+            List<BookingDto> booking = getBookingsByState(bookings, state);
+            if (from != null && size != null) {
+                return booking.stream().skip(from).limit(size).collect(Collectors.toList());
+            } else {
+                return booking;
+            }
         } else {
             log.error("Пользователя с userId = " + userId + " не существует");
             throw new IllegalArgumentException();
@@ -117,17 +125,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Transactional
-    public List<BookingDto> getAllForOwner(Long userId, String state) {
+    public List<BookingDto> getAllForOwner(Long userId, String state, Integer from, Integer size) {
         if (isContainsUser(userId)) {
+            if (from != null && size != null && (from == 0 && size == 0 || from < 0 || size < 0)) {
+                throw new ValidationException();
+            }
             List<Item> items = itemRepository.findByOwner(userId);
             if (items != null) {
-                List<Booking> bookings = bookingRepository.findAll();
-                bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed()).collect(Collectors.toList());
-                List<Booking> userBookings = new ArrayList<>();
-                for (Item i : items) {
-                    userBookings.addAll(bookings.stream().filter(b -> b.getItemId().equals(i.getId())).collect(Collectors.toList()));
-                }
-                return getBookingsByState(userBookings, state);
+                return this.getAllForOwner(items, state, from, size);
             } else {
                 throw new IllegalArgumentException();
             }
@@ -177,16 +182,17 @@ public class BookingServiceImpl implements BookingService {
         return userRepository.existsById(id);
     }
 
-    private boolean isValid(Booking bookingDto) {
-        return bookingDto.getItemId() != null && bookingDto.getStart() != null && bookingDto.getEnd() != null &&
-                bookingDto.getStart().isAfter(LocalDateTime.now()) && bookingDto.getEnd().isAfter(LocalDateTime.now())
-                && bookingDto.getStart().isBefore(bookingDto.getEnd())
-                && !bookingDto.getStart().equals(bookingDto.getEnd());
+    private boolean isValid(Booking booking) {
+        return booking.getItemId() != null && booking.getStart() != null && booking.getEnd() != null &&
+                booking.getStart().isAfter(LocalDateTime.now()) && booking.getEnd().isAfter(LocalDateTime.now())
+                && booking.getStart().isBefore(booking.getEnd())
+                && !booking.getStart().equals(booking.getEnd());
     }
 
     private boolean isAvailable(List<Booking> existBookings, Booking booking) {
         for (Booking existBooking : existBookings) {
-            if (existBooking.getStatus().equals(Status.APPROVED) && booking.getStart().isAfter(existBooking.getStart()) && booking.getEnd().isBefore(existBooking.getEnd())) {
+            if (existBooking.getStatus().equals(Status.APPROVED) && booking.getStart().isAfter(existBooking.getStart())
+                    && booking.getEnd().isBefore(existBooking.getEnd())) {
                 log.error("Вещь не доступна к бронированию");
                 throw new ValidationException("Вещь не доступна к бронированию");
             }
@@ -213,6 +219,21 @@ public class BookingServiceImpl implements BookingService {
         } else {
             log.error("Бронирование bookingId = " + booking.getId() + " не найдено");
             throw new IllegalArgumentException();
+        }
+    }
+
+    private List<BookingDto> getAllForOwner(List<Item> items, String state, Integer from, Integer size) {
+        List<Booking> bookings = bookingRepository.findAll();
+        bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed()).collect(Collectors.toList());
+        List<Booking> userBookings = new ArrayList<>();
+        for (Item i : items) {
+            userBookings.addAll(bookings.stream().filter(b -> b.getItemId().equals(i.getId())).collect(Collectors.toList()));
+        }
+        List<BookingDto> booking = getBookingsByState(userBookings, state);
+        if (from != null && size != null) {
+            return booking.stream().skip(from).limit(size).collect(Collectors.toList());
+        } else {
+            return booking;
         }
     }
 }

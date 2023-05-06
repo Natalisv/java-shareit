@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.mapper;
 import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemDtoShort;
 import ru.practicum.shareit.item.model.Item;
 
 import java.time.LocalDateTime;
@@ -10,10 +11,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ItemMapper {
+public final class ItemMapper {
 
     private ItemMapper() {
-        throw new RuntimeException();
     }
 
     public static ItemDto toItemDto(Item item) {
@@ -24,7 +24,19 @@ public class ItemMapper {
         return new Item(
                 itemDto.getName(),
                 itemDto.getDescription(),
-                itemDto.getAvailable()
+                itemDto.getAvailable(),
+                itemDto.getRequestId()
+        );
+    }
+
+    public static ItemDtoShort toItemDtoShort(Item item) {
+        return new ItemDtoShort(
+                item.getId(),
+                item.getName(),
+                item.getOwner(),
+                item.getDescription(),
+                item.getAvailable(),
+                item.getRequestId()
         );
     }
 
@@ -59,7 +71,8 @@ public class ItemMapper {
                 item.getOwner(),
                 lastBooking,
                 nextBooking,
-                item.getComments()
+                item.getComments(),
+                item.getRequestId()
         );
     }
 
@@ -70,7 +83,8 @@ public class ItemMapper {
                 item.getDescription(),
                 item.getAvailable(),
                 item.getOwner(),
-                item.getComments()
+                item.getComments(),
+                item.getRequestId()
         );
     }
 }

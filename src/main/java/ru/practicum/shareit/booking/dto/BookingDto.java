@@ -1,30 +1,26 @@
 package ru.practicum.shareit.booking.dto;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.item.dto.ItemDtoShort;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@ToString
 public class BookingDto {
 
 
-    Long id;
+    private Long id;
 
-    LocalDateTime start;
+    private LocalDateTime start;
 
-    LocalDateTime end;
+    private LocalDateTime end;
 
-    ItemDtoShort item;
+    private ItemDtoShort item;
 
-    BookerDtoShort booker;
+    private BookerDtoShort booker;
 
-    Status status;
+    private Status status;
 
     public BookingDto(Long id, LocalDateTime start, LocalDateTime end, ItemDtoShort item, BookerDtoShort booker, Status status) {
         this.id = id;
