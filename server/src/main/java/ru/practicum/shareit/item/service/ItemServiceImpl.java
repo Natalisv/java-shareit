@@ -20,6 +20,7 @@ import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,7 +107,10 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemDto> getUserItems(Long userId) {
         if (isContainsUser(userId)) {
             List<Item> items = itemRepository.findByOwner(userId);
-            return items.stream().map(ItemMapper::toItemDtoBooking).collect(Collectors.toList());
+            List<ItemDto> list = items.stream().map(ItemMapper::toItemDtoBooking).collect(Collectors.toList());
+            list.removeIf(i -> i.getRequestId() != null);
+            list = list.stream().sorted(Comparator.comparing(ItemDto::getId)).collect(Collectors.toList());
+            return list;
         }
         return null;
     }
