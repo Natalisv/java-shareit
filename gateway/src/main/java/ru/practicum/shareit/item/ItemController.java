@@ -20,7 +20,7 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ResponseEntity<Object> update(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId,
-                          @RequestBody ItemDto item) throws ExistException {
+                                         @RequestBody ItemDto item) throws ExistException {
         return itemClient.updateItem(userId, itemId, item);
     }
 
@@ -41,7 +41,7 @@ public class ItemController {
 
     @PostMapping("/{itemId}/comment")
     public ResponseEntity<Object> addComment(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long itemId,
-                              @RequestBody Comment comment) {
+                                             @RequestBody Comment comment) {
         return itemClient.addComment(userId, itemId, comment);
     }
 
