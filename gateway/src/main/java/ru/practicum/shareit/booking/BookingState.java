@@ -1,7 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-
 import javax.validation.ValidationException;
 import java.util.Optional;
 
