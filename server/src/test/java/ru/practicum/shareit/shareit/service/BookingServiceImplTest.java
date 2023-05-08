@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookerDtoShort;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Booking;
@@ -55,7 +55,7 @@ class BookingServiceImplTest {
                 end,
                 itemDtoShort,
                 new BookerDtoShort(5L),
-                BookingState.WAITING
+                Status.WAITING
         );
 
         item = new Item(
@@ -118,7 +118,7 @@ class BookingServiceImplTest {
     void createBookingEx2() {
         booking.setItemId(item.getId());
         BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
-        booking.setStatus(BookingState.APPROVED);
+        booking.setStatus(Status.APPROVED);
         Booking booking2 = new Booking(
                 item.getId(),
                 LocalDateTime.of(2024, 04, 27, 11, 00),
@@ -163,7 +163,7 @@ class BookingServiceImplTest {
         BookingDto savedBooking = bookingService.createBooking(userTwo.getId(), booking);
         BookingDto result = bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE);
         assertNotNull(result);
-        assertEquals(result.getStatus(), BookingState.APPROVED);
+        assertEquals(result.getStatus(), Status.APPROVED);
     }
 
     @Test
@@ -246,12 +246,12 @@ class BookingServiceImplTest {
     void getBookingsByStateWaiting() {
         item.setOwner(user.getId());
         booking.setItemId(item.getId());
-        booking.setStatus(BookingState.WAITING);
+        booking.setStatus(Status.WAITING);
         bookingService.createBooking(userTwo.getId(), booking);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "WAITING", 0, 20);
         assertNotNull(result);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStatus(), BookingState.WAITING);
+        assertEquals(result.get(0).getStatus(), Status.WAITING);
     }
 
     @Test
@@ -260,11 +260,11 @@ class BookingServiceImplTest {
         booking.setItemId(item.getId());
         BookingDto savedBooking = bookingService.createBooking(userTwo.getId(), booking);
         Booking booking1 = bookingRepository.findById(savedBooking.getId()).get();
-        booking1.setStatus(BookingState.REJECTED);
+        booking1.setStatus(Status.REJECTED);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "REJECTED", 0, 20);
         assertNotNull(result);
         assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStatus(), BookingState.REJECTED);
+        assertEquals(result.get(0).getStatus(), Status.REJECTED);
     }
 
     @Test

@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.service.BookingServiceImpl;
 
@@ -54,7 +54,7 @@ class BookingControllerTest {
                 end,
                 null,
                 null,
-                BookingState.APPROVED
+                Status.APPROVED
         );
     }
 

@@ -1,7 +1,7 @@
 package ru.practicum.shareit.booking.dto;
 
 import lombok.Getter;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.item.dto.ItemDtoShort;
 
 import java.time.LocalDateTime;
@@ -20,9 +20,9 @@ public class BookingDto {
 
     private BookerDtoShort booker;
 
-    private BookingState status;
+    private Status status;
 
-    public BookingDto(Long id, LocalDateTime start, LocalDateTime end, ItemDtoShort item, BookerDtoShort booker, BookingState status) {
+    public BookingDto(Long id, LocalDateTime start, LocalDateTime end, ItemDtoShort item, BookerDtoShort booker, Status status) {
         this.id = id;
         this.start = start;
         this.end = end;

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.ExistException;
@@ -172,7 +172,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private boolean isAvailableToComment(List<Booking> bookings) {
-        return bookings.stream().anyMatch(b -> b.getStatus().equals(BookingState.APPROVED)
+        return bookings.stream().anyMatch(b -> b.getStatus().equals(Status.APPROVED)
                 && b.getStart().isBefore(LocalDateTime.now())
                 && b.getEnd().isBefore(LocalDateTime.now()));
     }

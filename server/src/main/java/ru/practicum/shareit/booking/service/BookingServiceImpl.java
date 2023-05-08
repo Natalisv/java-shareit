@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
@@ -89,7 +89,7 @@ public class BookingServiceImpl implements BookingService {
             Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> {
                 throw new IllegalArgumentException();
             });
-            if (booking.getStatus().equals(BookingState.APPROVED)) {
+            if (booking.getStatus().equals(Status.APPROVED)) {
                 throw new ValidationException("Бронирование уже утверждено");
             }
             Item item = itemRepository.findById(booking.getItemId()).get();
@@ -160,12 +160,12 @@ public class BookingServiceImpl implements BookingService {
                         .collect(Collectors.toList());
             case ("WAITING"):
                 return bookings.stream()
-                        .filter(b -> b.getStatus().equals(BookingState.WAITING))
+                        .filter(b -> b.getStatus().equals(Status.WAITING))
                         .map(b -> bookingMapper.toBookingDto(b))
                         .collect(Collectors.toList());
             case ("REJECTED"):
                 return bookings.stream()
-                        .filter(b -> b.getStatus().equals(BookingState.REJECTED))
+                        .filter(b -> b.getStatus().equals(Status.REJECTED))
                         .map(b -> bookingMapper.toBookingDto(b))
                         .collect(Collectors.toList());
             case ("PAST"):
@@ -191,7 +191,7 @@ public class BookingServiceImpl implements BookingService {
 
     private boolean isAvailable(List<Booking> existBookings, Booking booking) {
         for (Booking existBooking : existBookings) {
-            if (existBooking.getStatus().equals(BookingState.APPROVED) && booking.getStart().isAfter(existBooking.getStart())
+            if (existBooking.getStatus().equals(Status.APPROVED) && booking.getStart().isAfter(existBooking.getStart())
                     && booking.getEnd().isBefore(existBooking.getEnd())) {
                 log.error("Вещь не доступна к бронированию");
                 throw new ValidationException("Вещь не доступна к бронированию");
@@ -201,7 +201,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private BookingDto saveBooking(Booking booking, Long userId) {
-        booking.setStatus(BookingState.WAITING);
+        booking.setStatus(Status.WAITING);
         booking.setBookerId(userId);
         Booking savedBooking = bookingRepository.save(booking);
         return bookingMapper.toBookingDto(savedBooking);
@@ -210,9 +210,9 @@ public class BookingServiceImpl implements BookingService {
     private BookingDto setApproved(Item item, Long userId, Booking booking, Boolean approved) {
         if (item.getOwner().equals(userId)) {
             if (Boolean.TRUE.equals(approved)) {
-                booking.setStatus(BookingState.APPROVED);
+                booking.setStatus(Status.APPROVED);
             } else {
-                booking.setStatus(BookingState.REJECTED);
+                booking.setStatus(Status.REJECTED);
             }
             bookingRepository.save(booking);
             return bookingMapper.toBookingDto(booking);

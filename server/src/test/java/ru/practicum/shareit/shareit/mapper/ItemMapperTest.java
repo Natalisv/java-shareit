@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJson;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoShort;
@@ -54,7 +54,7 @@ class ItemMapperTest {
     @Test
     void toItemDtoBooking() {
         item.setBookings(List.of(booking));
-        booking.setStatus(BookingState.WAITING);
+        booking.setStatus(Status.WAITING);
         ItemDto result = ItemMapper.toItemDtoBooking(item);
         assertNotNull(result);
         assertEquals(result.getId(), item.getId());

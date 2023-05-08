@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ class BookingDtoTest {
                 end,
                 null,
                 null,
-                BookingState.APPROVED
+                Status.APPROVED
         );
 
         JsonContent<BookingDto> result = json.write(bookingDto);

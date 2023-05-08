@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item.mapper;
 
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoShort;
@@ -46,14 +46,14 @@ public final class ItemMapper {
             return getToItemDto(item);
         }
         bookings = bookings.stream()
-                .filter(b -> !b.getStatus().equals(BookingState.REJECTED))
+                .filter(b -> !b.getStatus().equals(Status.REJECTED))
                 .sorted(Comparator.comparing(Booking::getStart)).collect(Collectors.toList());
         Booking lastBooking = null;
         Booking nextBooking = null;
         if (bookings.size() == 0) {
             return getToItemDto(item);
         } else if (bookings.size() == 1) {
-            if (bookings.get(0).getStatus().equals(BookingState.APPROVED) || bookings.get(0).getEnd().isBefore(LocalDateTime.now())) {
+            if (bookings.get(0).getStatus().equals(Status.APPROVED) || bookings.get(0).getEnd().isBefore(LocalDateTime.now())) {
                 lastBooking = bookings.get(0);
             } else {
                 nextBooking = bookings.get(0);

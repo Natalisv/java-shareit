@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,9 +33,9 @@ public class Booking {
 
     @Column
     @Enumerated
-    private BookingState status;
+    private Status status;
 
-    public Booking(LocalDateTime startBooking, LocalDateTime end, Long itemId, Long bookerId, BookingState status) {
+    public Booking(LocalDateTime startBooking, LocalDateTime end, Long itemId, Long bookerId, Status status) {
         this.start = startBooking;
         this.end = end;
         this.itemId = itemId;

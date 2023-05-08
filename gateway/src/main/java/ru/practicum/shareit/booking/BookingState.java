@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking;
 
-import javax.validation.ValidationException;
 import java.util.Optional;
 
 public enum BookingState {
@@ -23,6 +22,6 @@ public enum BookingState {
 				return Optional.of(state);
 			}
 		}
-		throw new ValidationException();
+		return Optional.empty();
 	}
 }

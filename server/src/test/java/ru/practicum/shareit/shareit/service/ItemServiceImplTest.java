@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import ru.practicum.shareit.booking.BookingState;
+import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingServiceImpl;
@@ -82,7 +82,7 @@ class ItemServiceImplTest {
                 end,
                 3L,
                 5L,
-                BookingState.APPROVED
+                Status.APPROVED
         );
         userTwo = new User(
                 10L,
@@ -183,7 +183,7 @@ class ItemServiceImplTest {
         booking.setItemId(savedItem.getId());
         booking.setBookerId(userTwo.getId());
         bookingService.createBooking(savedUser.getId(), booking);
-        booking.setStatus(BookingState.APPROVED);
+        booking.setStatus(Status.APPROVED);
         booking.setStart(LocalDateTime.of(2020, 04, 27, 10, 00));
         booking.setEnd(LocalDateTime.of(2021, 04, 27, 10, 00));
         Comment result = itemService.addComment(savedUser.getId(), savedItem.getId(), comment);
