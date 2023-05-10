@@ -54,7 +54,7 @@ class ItemRequestServiceImplTest {
         User savedUser = userRepository.save(user);
         ItemRequestDto result = itemRequestService.addRequest(savedUser.getId(), itemRequestDto);
         assertNotNull(result);
-        assertEquals( savedUser.getId(), result.getRequestorId());
+        assertEquals(savedUser.getId(), result.getRequestorId());
         assertEquals("Хотел бы воспользоваться щёткой для обуви", result.getDescription());
     }
 

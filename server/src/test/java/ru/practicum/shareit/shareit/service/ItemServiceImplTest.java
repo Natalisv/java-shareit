@@ -119,7 +119,7 @@ class ItemServiceImplTest {
         ItemDto savedItem = itemService.addItem(savedUser.getId(), itemDto);
         ItemDto result = itemService.getById(savedUser.getId(), savedItem.getId());
         assertNotNull(result);
-        assertEquals( savedUser.getId(), result.getOwner());
+        assertEquals(savedUser.getId(), result.getOwner());
         assertEquals(Boolean.TRUE, result.getAvailable());
     }
 

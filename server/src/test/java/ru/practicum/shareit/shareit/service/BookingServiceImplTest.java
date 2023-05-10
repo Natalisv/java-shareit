@@ -264,7 +264,7 @@ class BookingServiceImplTest {
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "WAITING", 0, 20);
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals( Status.WAITING, result.get(0).getStatus());
+        assertEquals(Status.WAITING, result.get(0).getStatus());
     }
 
     @Test
