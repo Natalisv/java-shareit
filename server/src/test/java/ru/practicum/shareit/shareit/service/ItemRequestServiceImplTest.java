@@ -54,14 +54,16 @@ class ItemRequestServiceImplTest {
         User savedUser = userRepository.save(user);
         ItemRequestDto result = itemRequestService.addRequest(savedUser.getId(), itemRequestDto);
         assertNotNull(result);
-        assertEquals(result.getRequestorId(), savedUser.getId());
-        assertEquals(result.getDescription(), "Хотел бы воспользоваться щёткой для обуви");
+        assertEquals( savedUser.getId(), result.getRequestorId());
+        assertEquals("Хотел бы воспользоваться щёткой для обуви", result.getDescription());
     }
 
     @Test
     void addRequestEx() {
-        ValidationException exception = assertThrows(ValidationException.class, () -> itemRequestService.addRequest(10L, new ItemRequestDto()));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemRequestService.addRequest(10L, itemRequestDto));
+        ValidationException exception = assertThrows(ValidationException.class,
+                () -> itemRequestService.addRequest(10L, new ItemRequestDto()));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> itemRequestService.addRequest(10L, itemRequestDto));
     }
 
     @Test
@@ -70,12 +72,13 @@ class ItemRequestServiceImplTest {
         itemRequestService.addRequest(savedUser.getId(), itemRequestDto);
         List<ItemRequestDto> result = itemRequestService.getRequests(savedUser.getId());
         assertNotNull(result);
-        assertEquals(result.size(), 1);
+        assertEquals(1, result.size());
     }
 
     @Test
     void getRequestsEx() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemRequestService.getRequests(10L));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> itemRequestService.getRequests(10L));
     }
 
     @Test
@@ -84,12 +87,13 @@ class ItemRequestServiceImplTest {
         ItemRequestDto savedRequest = itemRequestService.addRequest(savedUser.getId(), itemRequestDto);
         ItemRequestDto result = itemRequestService.getRequestById(savedUser.getId(), savedRequest.getId());
         assertNotNull(result);
-        assertEquals(result.getRequestorId(), savedRequest.getRequestorId());
+        assertEquals(savedRequest.getRequestorId(), result.getRequestorId());
     }
 
     @Test
     void getRequestByIdEx() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemRequestService.getRequestById(1L, 2L));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> itemRequestService.getRequestById(1L, 2L));
     }
 
     @Test
@@ -103,15 +107,16 @@ class ItemRequestServiceImplTest {
         ItemRequestDto savedRequest = itemRequestService.addRequest(otherUser.getId(), itemRequestDto);
         List<ItemRequestDto> result = itemRequestService.getOtherRequests(savedUser.getId(), 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
+        assertEquals(1, result.size());
     }
 
     @Test
     void getOtherRequestsEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> itemRequestService.getOtherRequests(1L, 2, 2));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> itemRequestService.getOtherRequests(1L, 2, 2));
         User savedUser = userRepository.save(user);
-        ValidationException ex = assertThrows(ValidationException.class, () -> itemRequestService.getOtherRequests(savedUser.getId(), 0, 0));
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> itemRequestService.getOtherRequests(savedUser.getId(), 0, 0));
         List<ItemRequestDto> result = itemRequestService.getOtherRequests(savedUser.getId(), null, null);
-
     }
 }

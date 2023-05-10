@@ -55,7 +55,7 @@ class UserServiceImplTest {
         UserDto userDto = UserMapper.toUserDto(user);
         UserDto result = userService.getUserById(savedUser.getId());
         assertNotNull(result);
-        assertEquals(result.getName(), userDto.getName());
+        assertEquals(userDto.getName(), result.getName());
     }
 
     @Test
@@ -70,8 +70,8 @@ class UserServiceImplTest {
         UserDto result = userService.saveUser(userDto);
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertEquals(result.getName(), userDto.getName());
-        assertEquals(result.getEmail(), userDto.getEmail());
+        assertEquals(userDto.getName(), result.getName());
+        assertEquals(userDto.getEmail(), result.getEmail());
     }
 
     @Test
@@ -98,8 +98,8 @@ class UserServiceImplTest {
         UserDto result = userService.updateUser(savedUser.getId(), userDto);
         assertNotNull(result);
         assertNotNull(result.getId());
-        assertEquals(result.getName(), userDto.getName());
-        assertEquals(result.getEmail(), userDto.getEmail());
+        assertEquals(userDto.getName(), result.getName());
+        assertEquals(userDto.getEmail(), result.getEmail());
     }
 
     @Test
@@ -112,7 +112,7 @@ class UserServiceImplTest {
         userRepository.save(userTwo);
         List<UserDto> users = userService.getAllUsers();
         assertNotNull(users);
-        assertEquals(users.size(), 2);
+        assertEquals(2, users.size());
     }
 
     @Test
@@ -120,6 +120,6 @@ class UserServiceImplTest {
         User savedUser = userRepository.save(user);
         userService.deleteUser(savedUser.getId());
         List<UserDto> users = userService.getAllUsers();
-        assertEquals(users.size(), 0);
+        assertEquals(0, users.size());
     }
 }

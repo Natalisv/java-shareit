@@ -102,16 +102,18 @@ class BookingServiceImplTest {
         booking.setItemId(item.getId());
         BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
         assertNotNull(savedBooking);
-        assertEquals(savedBooking.getItem().getId(), item.getId());
-        assertEquals(savedBooking.getStart(), start);
+        assertEquals(item.getId(), savedBooking.getItem().getId());
+        assertEquals(start, savedBooking.getStart());
     }
 
     @Test
     void createBookingEx() {
         booking.setItemId(item.getId());
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.createBooking(10L, booking));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.createBooking(10L, booking));
         booking.setEnd(LocalDateTime.now());
-        ValidationException ex = assertThrows(ValidationException.class, () -> bookingService.createBooking(user.getId(), booking));
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> bookingService.createBooking(user.getId(), booking));
     }
 
     @Test
@@ -125,7 +127,8 @@ class BookingServiceImplTest {
                 LocalDateTime.of(2024, 04, 28, 9, 00)
         );
 
-        ValidationException ex2 = assertThrows(ValidationException.class, () -> bookingService.createBooking(user.getId(), booking2));
+        ValidationException ex2 = assertThrows(ValidationException.class,
+                () -> bookingService.createBooking(user.getId(), booking2));
     }
 
 
@@ -141,8 +144,10 @@ class BookingServiceImplTest {
 
     @Test
     void getBookingEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(3L, 5L));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(user.getId(), 5L));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getBooking(3L, 5L));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getBooking(user.getId(), 5L));
 
         User user3 = new User(
                 "user3",
@@ -152,7 +157,8 @@ class BookingServiceImplTest {
         booking.setItemId(item.getId());
         booking.setBookerId(user.getId());
         BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> bookingService.getBooking(savedUser3.getId(), savedBooking.getId()));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getBooking(savedUser3.getId(), savedBooking.getId()));
 
     }
 
@@ -163,19 +169,22 @@ class BookingServiceImplTest {
         BookingDto savedBooking = bookingService.createBooking(userTwo.getId(), booking);
         BookingDto result = bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE);
         assertNotNull(result);
-        assertEquals(result.getStatus(), Status.APPROVED);
+        assertEquals(Status.APPROVED, result.getStatus());
     }
 
     @Test
     void setApprovedEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.setApproved(15L, 1L, Boolean.TRUE));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> bookingService.setApproved(user.getId(), 15L, Boolean.TRUE));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.setApproved(15L, 1L, Boolean.TRUE));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.setApproved(user.getId(), 15L, Boolean.TRUE));
 
         item.setOwner(user.getId());
         booking.setItemId(item.getId());
         BookingDto savedBooking = bookingService.createBooking(userTwo.getId(), booking);
         bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE);
-        ValidationException ex2 = assertThrows(ValidationException.class, () -> bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE));
+        ValidationException ex2 = assertThrows(ValidationException.class,
+                () -> bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE));
     }
 
     @Test
@@ -186,13 +195,15 @@ class BookingServiceImplTest {
         bookingService.setApproved(user.getId(), savedBooking.getId(), Boolean.TRUE);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "ALL", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
+        assertEquals(1, result.size());
     }
 
     @Test
     void getAllBookingEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.getAllBooking(5L, "ALL", 0, 20));
-        ValidationException ex = assertThrows(ValidationException.class, () -> bookingService.getAllBooking(userTwo.getId(), "ALL", 0, 0));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getAllBooking(5L, "ALL", 0, 20));
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> bookingService.getAllBooking(userTwo.getId(), "ALL", 0, 0));
 
     }
 
@@ -203,15 +214,17 @@ class BookingServiceImplTest {
         BookingDto savedBooking = bookingService.createBooking(user.getId(), booking);
         List<BookingDto> result = bookingService.getAllForOwner(userTwo.getId(), "ALL", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStart(), start);
-        assertEquals(result.get(0).getEnd(), end);
+        assertEquals(1, result.size());
+        assertEquals(start, result.get(0).getStart());
+        assertEquals(end, result.get(0).getEnd());
     }
 
     @Test
     void getAllForOwnerEx() {
-        ValidationException ex = assertThrows(ValidationException.class, () -> bookingService.getAllForOwner(userTwo.getId(), "ALL", 0, 0));
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bookingService.getAllForOwner(10L, "ALL", 0, 20));
+        ValidationException ex = assertThrows(ValidationException.class,
+                () -> bookingService.getAllForOwner(userTwo.getId(), "ALL", 0, 0));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> bookingService.getAllForOwner(10L, "ALL", 0, 20));
     }
 
     @Test
@@ -227,8 +240,8 @@ class BookingServiceImplTest {
         bookingCurrent.setStart(LocalDateTime.of(2022, 04, 27, 10, 00));
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "CURRENT", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStart(), LocalDateTime.of(2022, 04, 27, 10, 00));
+        assertEquals(1, result.size());
+        assertEquals(LocalDateTime.of(2022, 04, 27, 10, 00), result.get(0).getStart());
     }
 
     @Test
@@ -238,8 +251,8 @@ class BookingServiceImplTest {
         bookingService.createBooking(userTwo.getId(), booking);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "FUTURE", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStart(), LocalDateTime.of(2024, 04, 27, 10, 00));
+        assertEquals(1, result.size());
+        assertEquals(LocalDateTime.of(2024, 04, 27, 10, 00), result.get(0).getStart());
     }
 
     @Test
@@ -250,8 +263,8 @@ class BookingServiceImplTest {
         bookingService.createBooking(userTwo.getId(), booking);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "WAITING", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStatus(), Status.WAITING);
+        assertEquals(1, result.size());
+        assertEquals( Status.WAITING, result.get(0).getStatus());
     }
 
     @Test
@@ -263,8 +276,8 @@ class BookingServiceImplTest {
         booking1.setStatus(Status.REJECTED);
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "REJECTED", 0, 20);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStatus(), Status.REJECTED);
+        assertEquals(1, result.size());
+        assertEquals(Status.REJECTED, result.get(0).getStatus());
     }
 
     @Test
@@ -277,8 +290,8 @@ class BookingServiceImplTest {
         List<BookingDto> result = bookingService.getAllBooking(userTwo.getId(), "PAST", 0, 20);
 
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getStart(), LocalDateTime.of(2020, 04, 27, 10, 00));
+        assertEquals(1, result.size());
+        assertEquals(LocalDateTime.of(2020, 04, 27, 10, 00), result.get(0).getStart());
     }
 
 }

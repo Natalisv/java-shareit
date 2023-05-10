@@ -47,8 +47,8 @@ class ItemMapperTest {
     void toItemDtoShort() {
         ItemDtoShort result = ItemMapper.toItemDtoShort(item);
         assertNotNull(result);
-        assertEquals(result.getId(), item.getId());
-        assertEquals(result.getName(), item.getName());
+        assertEquals(item.getId(), result.getId());
+        assertEquals(item.getName(), result.getName());
     }
 
     @Test
@@ -57,7 +57,7 @@ class ItemMapperTest {
         booking.setStatus(Status.WAITING);
         ItemDto result = ItemMapper.toItemDtoBooking(item);
         assertNotNull(result);
-        assertEquals(result.getId(), item.getId());
-        assertEquals(result.getName(), item.getName());
+        assertEquals(item.getId(), result.getId());
+        assertEquals(item.getName(), result.getName());
     }
 }

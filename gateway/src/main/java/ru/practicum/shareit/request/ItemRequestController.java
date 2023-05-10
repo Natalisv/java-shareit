@@ -12,7 +12,8 @@ public class ItemRequestController {
     private final RequestClient requestClient;
 
     @PostMapping
-    public ResponseEntity<Object> addRequest(@RequestHeader("X-Sharer-User-Id") long userId, @RequestBody ItemRequestDto itemRequest) {
+    public ResponseEntity<Object> addRequest(@RequestHeader("X-Sharer-User-Id") long userId,
+                                             @RequestBody ItemRequestDto itemRequest) {
         return requestClient.addRequest(userId, itemRequest);
     }
 
@@ -22,7 +23,8 @@ public class ItemRequestController {
     }
 
     @GetMapping("/{requestId}")
-    public ResponseEntity<Object> getRequestById(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable Long requestId) {
+    public ResponseEntity<Object> getRequestById(@RequestHeader("X-Sharer-User-Id") long userId,
+                                                 @PathVariable Long requestId) {
         return requestClient.getRequestById(userId, requestId);
     }
 

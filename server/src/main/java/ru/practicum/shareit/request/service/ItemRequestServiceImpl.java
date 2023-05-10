@@ -51,7 +51,8 @@ public class ItemRequestServiceImpl implements ItemRequestService {
             List<ItemRequest> itemRequests = itemRequestRepository.findByRequestorId(userId);
             List<ItemRequestDto> itemRequestsDto = itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i))
                     .collect(Collectors.toList());
-            return itemRequestsDto.stream().sorted(Comparator.comparing(ItemRequestDto::getCreated)).collect(Collectors.toList());
+            return itemRequestsDto.stream().sorted(Comparator.comparing(ItemRequestDto::getCreated))
+                    .collect(Collectors.toList());
         } else {
             log.error("Пользователя с userId = " + userId + " не существует");
             throw new IllegalArgumentException();
@@ -79,11 +80,13 @@ public class ItemRequestServiceImpl implements ItemRequestService {
                 throw new ValidationException();
             }
             List<ItemRequest> itemRequests = itemRequestRepository.findAll();
-            itemRequests = itemRequests.stream().filter(i -> !i.getRequestorId().equals(userId)).collect(Collectors.toList());
+            itemRequests = itemRequests.stream().filter(i -> !i.getRequestorId().equals(userId))
+                    .collect(Collectors.toList());
             if (itemRequests != null) {
                 itemRequests = itemRequests.stream().sorted(Comparator.comparing(ItemRequest::getCreated)).skip(from)
                         .limit(size).collect(Collectors.toList());
-                return itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i)).collect(Collectors.toList());
+                return itemRequests.stream().map(i -> itemRequestMapper.toItemRequestDto(i))
+                        .collect(Collectors.toList());
             } else {
                 return Collections.emptyList();
             }

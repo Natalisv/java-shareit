@@ -71,7 +71,8 @@ public class BookingServiceImpl implements BookingService {
             Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> {
                 throw new IllegalArgumentException();
             });
-            if (booking.getBookerId().equals(userId) || itemRepository.findById(booking.getItemId()).get().getOwner().equals(userId)) {
+            if (booking.getBookerId().equals(userId) ||
+                    itemRepository.findById(booking.getItemId()).get().getOwner().equals(userId)) {
                 return bookingMapper.toBookingDto(booking);
             } else {
                 log.error("У пользователя нет бронирований");
@@ -111,7 +112,8 @@ public class BookingServiceImpl implements BookingService {
                 throw new ValidationException();
             }
             List<Booking> bookings = bookingRepository.findByBookerId(userId);
-            bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed()).collect(Collectors.toList());
+            bookings = bookings.stream().sorted(Comparator.comparing(Booking::getId).reversed())
+                    .collect(Collectors.toList());
             List<BookingDto> booking = getBookingsByState(bookings, state);
             if (from != null && size != null) {
                 return booking.stream().skip(from).limit(size).collect(Collectors.toList());

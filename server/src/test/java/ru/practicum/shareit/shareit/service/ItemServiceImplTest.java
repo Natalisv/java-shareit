@@ -97,18 +97,20 @@ class ItemServiceImplTest {
         User savedUser = userRepository.save(user);
         ItemDto result = itemService.addItem(savedUser.getId(), itemDto);
         assertNotNull(result);
-        assertEquals(result.getOwner(), savedUser.getId());
-        assertEquals(result.getName(), "Дрель");
+        assertEquals(savedUser.getId(), result.getOwner());
+        assertEquals("Дрель", result.getName());
     }
 
     @Test
     void addItemValidEx() {
-        ValidationException exception = assertThrows(ValidationException.class, () -> itemService.addItem(1L, itemDtoNotValid));
+        ValidationException exception = assertThrows(ValidationException.class,
+                () -> itemService.addItem(1L, itemDtoNotValid));
     }
 
     @Test
     void addItemIlArEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> itemService.addItem(10L, itemDto));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> itemService.addItem(10L, itemDto));
     }
 
     @Test
@@ -117,15 +119,17 @@ class ItemServiceImplTest {
         ItemDto savedItem = itemService.addItem(savedUser.getId(), itemDto);
         ItemDto result = itemService.getById(savedUser.getId(), savedItem.getId());
         assertNotNull(result);
-        assertEquals(result.getOwner(), savedUser.getId());
-        assertEquals(result.getAvailable(), Boolean.TRUE);
+        assertEquals( savedUser.getId(), result.getOwner());
+        assertEquals(Boolean.TRUE, result.getAvailable());
     }
 
     @Test
     void getByIdIlArEx() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> itemService.getById(10L, 1L));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> itemService.getById(10L, 1L));
         User savedUser = userRepository.save(user);
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemService.getById(savedUser.getId(), 10L));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> itemService.getById(savedUser.getId(), 10L));
     }
 
     @Test
@@ -139,14 +143,15 @@ class ItemServiceImplTest {
         );
         ItemDto result = itemService.updateItem(savedUser.getId(), savedItem.getId(), newItem);
         assertNotNull(result);
-        assertEquals(result.getOwner(), savedUser.getId());
-        assertEquals(result.getAvailable(), Boolean.FALSE);
-        assertEquals(result.getName(), newItem.getName());
+        assertEquals(savedUser.getId(), result.getOwner());
+        assertEquals(Boolean.FALSE, result.getAvailable());
+        assertEquals(newItem.getName(), result.getName());
     }
 
     @Test
     void updateItemEx() throws ExistException {
-        ExistException exception = assertThrows(ExistException.class, () -> itemService.updateItem(10L, 1L, itemDto));
+        ExistException exception = assertThrows(ExistException.class,
+                () -> itemService.updateItem(10L, 1L, itemDto));
     }
 
     @Test
@@ -155,7 +160,7 @@ class ItemServiceImplTest {
         itemService.addItem(savedUser.getId(), itemDto);
         List<ItemDto> result = itemService.getUserItems(savedUser.getId());
         assertNotNull(result);
-        assertEquals(result.size(), 1);
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -165,15 +170,15 @@ class ItemServiceImplTest {
         String text = "дрель";
         List<ItemDto> result = itemService.findItem(1L, text);
         assertNotNull(result);
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getName(), itemDto.getName());
+        assertEquals(1, result.size());
+        assertEquals(itemDto.getName(), result.get(0).getName());
     }
 
     @Test
     void findItemEmpt() {
         List<ItemDto> result = itemService.findItem(1L, "");
         assertNotNull(result);
-        assertEquals(result.size(), 0);
+        assertEquals(0, result.size());
     }
 
     @Test
@@ -188,19 +193,22 @@ class ItemServiceImplTest {
         booking.setEnd(LocalDateTime.of(2021, 04, 27, 10, 00));
         Comment result = itemService.addComment(savedUser.getId(), savedItem.getId(), comment);
         assertNotNull(result);
-        assertEquals(result.getText(), "comment");
+        assertEquals("comment", result.getText());
     }
 
     @Test
     void addCommentEx() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> itemService.addComment(10L, 2L, new Comment()));
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> itemService.addComment(10L, 2L, new Comment()));
         comment.setText("");
         User savedUser = userRepository.save(user);
         ItemDto savedItem = itemService.addItem(userTwo.getId(), itemDto);
-        ValidationException exception = assertThrows(ValidationException.class, () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
+        ValidationException exception = assertThrows(ValidationException.class,
+                () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
 
         comment.setText("text");
-        ValidationException exception2 = assertThrows(ValidationException.class, () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
+        ValidationException exception2 = assertThrows(ValidationException.class,
+                () -> itemService.addComment(savedUser.getId(), savedItem.getId(), comment));
     }
 
 }

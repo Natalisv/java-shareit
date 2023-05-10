@@ -163,7 +163,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private boolean isValid(ItemDto item) {
-        return (item.getName() != null && !item.getName().isEmpty() && item.getDescription() != null && !item.getDescription().isEmpty() && item.getAvailable() != null);
+        return (item.getName() != null && !item.getName().isEmpty() && item.getDescription() != null
+                && !item.getDescription().isEmpty() && item.getAvailable() != null);
     }
 
     private Comment saveComment(Comment comment, Long itemId, Long userId) {

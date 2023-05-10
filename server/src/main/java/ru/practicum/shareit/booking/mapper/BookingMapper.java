@@ -14,14 +14,14 @@ import ru.practicum.shareit.user.repository.UserRepository;
 @Service
 public final class BookingMapper {
 
-    private BookingMapper() {
-    }
-
     @Autowired
     private ItemRepository itemRepository;
 
     @Autowired
     private UserRepository userRepository;
+
+    private BookingMapper() {
+    }
 
     public BookingDto toBookingDto(Booking booking) {
         Item item = itemRepository.findById(booking.getItemId()).get();
